@@ -14,9 +14,10 @@
   api-key: Api key of a user
   endpoint: URI path for request
   "
-  [api-key endpoint]
+  [api-key endpoint & {:keys [params]}]
   (let [response (client/get (format "%s/%s" api-url endpoint)
                              {:basic-auth [api-key ""]
+                              :query-params params
                               :as :json
                               :content-type :json
                               :throw-entire-message? true})]
