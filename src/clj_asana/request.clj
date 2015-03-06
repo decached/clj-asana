@@ -21,4 +21,4 @@
                               :content-type :json
                               :throw-entire-message? true})]
     (if (= 200 (:status response))
-      (:body response))))
+      (:data (:body response)))))
