@@ -7,6 +7,26 @@
 
 (def ^:private api-url (format "%s/%s" api-base-url api-version))
 
+(defn api-post
+  "Peforms a POST request
+
+  Args:
+  api-key: Api key of a user
+  endpoint: URI path for request
+  data: Payload for the request
+  params: (Optional) query parameters for the request
+  "
+  [api-key endpoint data & {:keys [params]}]
+  (let [response (client/post (format "%s/%s" api-url endpoint)
+                             {:basic-auth [api-key ""]
+                              :query-params params
+                              :as :json
+                              :content-type :json
+                              :form-params {"data" data}
+                              :throw-entire-message? true})]
+    (if (= 200 (:status response))
+      (:data (:body response)))))
+
 (defn api-get
   "Peforms a GET request
 
