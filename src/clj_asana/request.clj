@@ -64,3 +64,21 @@
                               :throw-entire-message? true})]
     (if (= 200 (:status response))
       (:data (:body response)))))
+
+(defn api-delete
+  "Peforms a DELETE request
+
+  Args:
+  api-key: Api key of a user
+  endpoint: URI path for request
+  params: (Optional) query parameters for the request
+  "
+  [api-key endpoint & {:keys [params]}]
+  (let [response (client/delete (format "%s/%s" api-url endpoint)
+                             {:basic-auth [api-key ""]
+                              :query-params params
+                              :as :json
+                              :content-type :json
+                              :throw-entire-message? true})]
+    (if (= 200 (:status response))
+      (:data (:body response)))))
