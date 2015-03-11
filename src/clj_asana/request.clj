@@ -24,7 +24,7 @@
                               :content-type :json
                               :form-params {"data" data}
                               :throw-entire-message? true})]
-    (if (= 200 (:status response))
+    (if (= 201 (:status response))
       (:data (:body response)))))
 
 (defn api-get
