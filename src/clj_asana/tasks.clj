@@ -47,6 +47,15 @@
   [api-key task-id parent-id]
   (request/api-post api-key (format "tasks/%s/setProject" task-id) {:parent parent-id}))
 
+(defn list-task-projects
+  "Lists all projects associated with a task.
+
+  Args:
+  task-id: id# of task
+  "
+  [api-key task-id]
+  (request/api-get api-key (format "tasks/%s/projects" task-id)))
+
 (defn add-project-to-task
   "Adds project to a task
 
