@@ -25,7 +25,7 @@
   assignee: assignee
   "
   [api-key & {:keys [workspace-id assignee] :or {:workspace-id nil :assignee nil}}]
-  (request/api-get (if workspace-id (format "workspaces/%s/tasks" workspace-id) "tasks")
+  (request/api-get api-key (if workspace-id (format "workspaces/%s/tasks" workspace-id) "tasks")
                    (if assignee {:assignee assignee})))
 
 (defn add-project-to-task
@@ -35,8 +35,8 @@
   task-id: id# of task
   project-id: id# of project
   "
-  [task-id project-id]
-  (request/api-post (format "tasks/%s/addProject" task-id) {:project project-id}))
+  [api-key task-id project-id]
+  (request/api-post api-key (format "tasks/%s/addProject" task-id) {:project project-id}))
 
 (defn remove-project-from-task
   "Removes a project from task
@@ -45,8 +45,8 @@
   task-id: id# of task
   project-id: id# of project
   "
-  [task-id project-id]
-  (request/api-post (format "tasks/%s/removeProject" task-id) {:project project-id}))
+  [api-key task-id project-id]
+  (request/api-post api-key (format "tasks/%s/removeProject" task-id) {:project project-id}))
 
 (defn list-task-tags
   "Lists tags that are associated with a task.
