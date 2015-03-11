@@ -76,3 +76,23 @@
   "
   [api-key task-id tag-id]
   (request/api-post api-key (format "tasks/%s/removeTag" task-id) {"tag" tag-id}))
+
+(defn add-followers-to-task
+  "Adds followers to a task
+
+  Args:
+  task-id: id# of task
+  followers []: id#'s of followers
+  "
+  [api-key task-id followers]
+  (request/api-post api-key (format "tasks/%s/addFollowers") (into {} (map-indexed (fn [index value] [(format "followers[%d]" index) value]) followers))))
+
+(defn remove-followers-from-task
+  "Removes followers from a task
+
+  Args:
+  task-id: id# of task
+  followers []: id#'s of followers
+  "
+  [api-key task-id followers]
+  (request/api-post api-key (format "tasks/%s/removeFollowers") (into {} (map-indexed (fn [index value] [(format "followers[%d]" index) value]) followers))))
