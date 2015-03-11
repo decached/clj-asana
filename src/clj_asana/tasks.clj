@@ -28,6 +28,25 @@
   (request/api-get api-key (if workspace-id (format "workspaces/%s/tasks" workspace-id) "tasks")
                    (if assignee {:assignee assignee})))
 
+(defn list-subtasks
+  "Lists subtasks.
+
+  Args:
+  task-id: #id of a task
+  "
+  [api-key task-id]
+  (request/api-get api-key (format "tasks/%s/subtasks" task-id)))
+
+(defn set-parent
+  "Sets parent to an existing task.
+
+  Args:
+  task-id: id# of task
+  parent-id: id# of project
+  "
+  [api-key task-id parent-id]
+  (request/api-post api-key (format "tasks/%s/setProject" task-id) {:parent parent-id}))
+
 (defn add-project-to-task
   "Adds project to a task
 
