@@ -47,3 +47,32 @@
   "
   [task-id project-id]
   (request/api-post (format "tasks/%s/removeProject" task-id) {:project project-id}))
+
+(defn list-task-tags
+  "Lists tags that are associated with a task.
+
+  Args:
+  task-id: id# of task
+  "
+  [api-key task-id]
+  (request/api-get api-key (format "tasks/%s/tags" task-id)))
+
+(defn add-tag-to-task
+  "Tags a task
+
+  Args:
+  task-id: id# of task
+  tag-id: id# of tag to add
+  "
+  [api-key task-id tag-id]
+  (request/api-post api-key (format "tasks/%s/addTag" task-id) {"tag" tag-id}))
+
+(defn remove-tag-from-task
+  "Removes a tag from a task.
+
+  Args:
+  task-id: id# of task
+  tag-id: id# of tag to remove
+  "
+  [api-key task-id tag-id]
+  (request/api-post api-key (format "tasks/%s/removeTag" task-id) {"tag" tag-id}))
