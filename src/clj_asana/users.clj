@@ -10,8 +10,8 @@
   [api-key user-id]
   (request/api-get api-key (format "users/%s" user-id)))
 
-(defn show-users
-  "Shows users (based on workspace-id) and filters the results
+(defn list-users
+  "Lists users (based on workspace-id) and filters the results
 
   Args:
   workspace-id: Optional #id of workspace
