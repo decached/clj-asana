@@ -13,15 +13,15 @@
   notes: (Optional) notes to add to task
   "
   [api-key workspace-id task-name & {:keys [assignee assignee-status due-on followers notes]
-                         :or {:assignee nil :assignee-status "upcoming" :due-on nil :followers nil :notes nil}}]
+                                     :or {:assignee nil :assignee-status "upcoming" :due-on nil :followers nil :notes nil}}]
   (request/api-post api-key "tasks"
-              (conj {:name task-name
-                     :workspace workspace-id
-                     :assignee_status assignee-status}
-                    (if assignee {:assignee assignee})
-                    (if due-on {:due_on due-on})
-                    (if notes {:notes notes})
-                    (if followers (into {} (map-indexed (fn [index value] [(format "followers[%d]" index) value]) followers))))))
+                    (conj {:name task-name
+                           :workspace workspace-id
+                           :assignee_status assignee-status}
+                          (if assignee {:assignee assignee})
+                          (if due-on {:due_on due-on})
+                          (if notes {:notes notes})
+                          (if followers (into {} (map-indexed (fn [index value] [(format "followers[%d]" index) value]) followers))))))
 
 (defn show-task
   "Shows all information about a task.
@@ -30,6 +30,28 @@
   task-id: id# of task"
   [api-key task-id]
   (request/api-get api-key (format "tasks/%s" task-id)))
+
+(defn update-task
+  "Updates an existing task
+  Args:
+  task-id: #id of task to update
+  name: Update task name
+  assignee: Update assignee
+  assignee-status: Update status
+  completed: Update whether the task is completed
+  due-on: Update due date
+  notes: Update notes
+  "
+  [api-key task-id & {:keys [new-name assignee assignee-status completed due-on notes]
+                      :or {new-name nil assignee nil assignee-status "upcoming" completed false due-on nil notes nil}}]
+  (request/api-put api-key (format "tasks/%s" task-id)
+                   (conj {} (if new-name {"name" new-name})
+                         (if assignee {"assignee" assignee})
+                         (if assignee-status {"assignee_status" assignee-status})
+                         (if due-on {"due_on" due-on})
+                         (if notes {"notes" notes})
+                         (if completed {"completed" completed})
+                         (if due-on {"due_on" due-on}))))
 
 (defn delete-task
   "Deletes an existing task.
