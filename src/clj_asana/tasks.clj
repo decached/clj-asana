@@ -1,6 +1,28 @@
 (ns clj-asana.tasks
   (:require [clj-asana.request :as request]))
 
+(defn create-task
+  "Creates a new task
+
+  Args:
+  task-name: Name for the task
+  workspace-id: #id of a workspace
+  assignee: (Optional) User to which this task is to be assigned
+  due-on: Optional due date for task
+  followers: (Optional) Followers for task
+  notes: (Optional) notes to add to task
+  "
+  [api-key workspace-id task-name & {:keys [assignee assignee-status due-on followers notes]
+                         :or {:assignee nil :assignee-status "upcoming" :due-on nil :followers nil :notes nil}}]
+  (request/api-post api-key "tasks"
+              (conj {:name task-name
+                     :workspace workspace-id
+                     :assignee_status assignee-status}
+                    (if assignee {:assignee assignee})
+                    (if due-on {:due_on due-on})
+                    (if notes {:notes notes})
+                    (if followers (into {} (map-indexed (fn [index value] [(format "followers[%d]" index) value]) followers))))))
+
 (defn show-task
   "Shows all information about a task.
 
